@@ -1,0 +1,34 @@
+{
+  "name": "dnsdaddy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lewissteele/dnsdaddy.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lewissteele/dnsdaddy/issues"
+  },
+  "homepage": "https://github.com/lewissteele/dnsdaddy#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "commander": "^5.1.0",
+    "figlet": "^1.4.0"
+  },
+  "bin": {
+    "dnsdaddy": "./index.js"
+  },
+  "type": "module"
+}
