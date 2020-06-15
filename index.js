@@ -28,7 +28,7 @@ const init = () => {
       // todo
     });
   });
-}
+};
 
 const update = () => {
 
