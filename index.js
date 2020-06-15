@@ -1,69 +1,21 @@
 #!/usr/bin/env node
 
 import Confirm from 'prompt-confirm';
-import YAML from 'yaml';
 import chalk from 'chalk';
-import figlet from 'figlet';
-import fs from 'fs';
-import os from 'os';
 import program from 'commander';
 import prompt from 'prompt';
 
-/**
- * @returns string
- */
-function getConfigFilePath() {
-  return `${os.homedir()}/.dnsdaddyrc.yml`;
-}
+import Config from './src/Config.js';
+import schema from './src/schema.js';
 
-/**
- * @returns void
- */
-function runConfigWizard() {
-  console.log(
-    chalk.green(
-      figlet.textSync(
-        'dnsdaddy',
-        { horizontalLayout: 'full' },
-      ),
-    ),
-  );
-
-  //  ^[A-Z]{1,10}$
-
+const init = () => {
   prompt.message = '';
-
-  const schema = {
-    properties: {
-      key: {
-        description: 'GoDaddy API Key',
-        required: true,
-      },
-      secret: {
-        description: 'GoDaddy API Secret',
-        required: true,
-        hidden: true,
-        replace: '*',
-      },
-      domain: {
-        description: 'The domain name your want to update',
-        required: true,
-      },
-      subdomain: {
-        description: 'Subdomain to update',
-        required: true,
-        default: '@',
-      },
-    },
-  };
-
   prompt.start();
 
   prompt.get(schema, (_, result) => {
-    console.log(result);
-
-    const yaml = YAML.stringify(result);
-    fs.writeFileSync(getConfigFilePath(), yaml);
+    const config = new Config();
+    Object.assign(config, result);
+    config.save();
 
     console.log(chalk.green('Setup complete!'));
 
@@ -73,34 +25,33 @@ function runConfigWizard() {
     });
 
     confirm.ask((answer) => {
-      console.log(answer);
+      // todo
     });
   });
 }
 
+const update = () => {
 
-/**
- * @returns void
- */
-function update() {
-
-}
+};
 
 program
-  .option('-c, --config', 'Run config wizard');
+  .name('dnsdaddy')
+  .description('Dyanmic DNS for GoDaddy')
+  .version('1.0');
 
 program
   .command('init')
   .description('Setup DNS Daddy with your GoDaddy credentials')
-  .action(() => runConfigWizard());
+  .action(init);
 
 program
   .command('update')
   .description('Update DNS record with your IP address')
+  .action(update);
+
+program
+  .command('clear')
+  .description('Clear config')
   .action(() => {});
 
 program.parse(process.argv);
-
-//if (!fs.existsSync(getConfigFilePath())) {
-  //runConfigWizard();
-//}
