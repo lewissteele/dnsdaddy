@@ -4,6 +4,7 @@ import Confirm from 'prompt-confirm';
 import chalk from 'chalk';
 import program from 'commander';
 import prompt from 'prompt';
+import axios from 'axios';
 
 import Config from './src/Config.js';
 import schema from './src/schema.js';
@@ -31,7 +32,14 @@ const init = () => {
 };
 
 const update = () => {
+  axios.get('https://api.ipify.org')
+    .then((response) => {
+      const ip = response.data;
+      console.log(`Your IP Address: ${ip}`);
 
+
+    })
+    .catch((err) => console.log(err));
 };
 
 program
