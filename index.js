@@ -32,12 +32,24 @@ const init = () => {
 };
 
 const update = () => {
+  const config = new Config();
+
   axios.get('https://api.ipify.org')
     .then((response) => {
       const ip = response.data;
       console.log(`Your IP Address: ${ip}`);
 
+      axios({
+        headers: { Authorization: `sso-key ${config.key}:${config.secret}` },
+        url: `https://api.godaddy.com/v1/domains/${config.domain}/records/A/${config.subdomain}`,
+      })
+        .then((response) => {
+          if (ip !== response.data) {
+            // update ip
+          }
 
+          console.log(response.data);
+        });
     })
     .catch((err) => console.log(err));
 };
