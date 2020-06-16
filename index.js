@@ -7,6 +7,7 @@ import prompt from 'prompt';
 import axios from 'axios';
 
 import Config from './src/Config.js';
+import GoDaddyClient from './src/GoDaddyClient.js';
 import schema from './src/schema.js';
 
 const init = () => {
@@ -33,22 +34,27 @@ const init = () => {
 
 const update = () => {
   const config = new Config();
+  const godaddy = new GoDaddyClient(
+    config.key,
+    config.secret,
+    config.domain,
+    config.subdomain,
+  );
 
   axios.get('https://api.ipify.org')
     .then((response) => {
-      const ip = response.data;
-      console.log(`Your IP Address: ${ip}`);
+      const publicIpAddress = response.data;
+      console.log(`Your IP Address: ${publicIpAddress}`);
 
-      axios({
-        headers: { Authorization: `sso-key ${config.key}:${config.secret}` },
-        url: `https://api.godaddy.com/v1/domains/${config.domain}/records/A/${config.subdomain}`,
-      })
-        .then((response) => {
-          if (ip !== response.data) {
-            // update ip
+      godaddy.getIpAddress()
+        .then((godaddyIpAddress) => {
+          console.log(godaddyIpAddress);
+          if (godaddyIpAddress !== publicIpAddress) {
+            // update
           }
+        })
+        .catch((err) => {
 
-          console.log(response.data);
         });
     })
     .catch((err) => console.log(err));
