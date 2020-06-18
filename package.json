@@ -26,14 +26,10 @@
     "@folder/xdg": "^2.1.1",
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
-    "clear": "^0.1.0",
     "commander": "^5.1.0",
     "figlet": "^1.4.0",
     "inquirer": "^7.2.0",
-    "prompt": "^1.0.0",
-    "prompt-confirm": "^2.0.4",
-    "yaml": "^1.10.0",
-    "yesno": "^0.3.1"
+    "yaml": "^1.10.0"
   },
   "bin": {
     "dnsdaddy": "./index.js"
