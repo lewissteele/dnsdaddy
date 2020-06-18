@@ -13,4 +13,7 @@ rules:
     - error
     - always
     - ignorePackages: true
+  arrow-parens:
+    - error
+    - as-needed
 parser: babel-eslint
