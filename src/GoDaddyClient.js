@@ -1,11 +1,21 @@
 import axios from 'axios';
 
-const apiUrl = 'https://api.godaddy.com/v1/domains/';
-
 class GoDaddyClient {
+  /** @type import('axios').AxiosInstance */
   #axios;
 
-  constructor(key, secret, domain, subdomain = '@') {
+  /**
+   * @param {string} key
+   * @param {string} secret
+   * @param {string} domain
+   * @param {string} subdomain
+   */
+  constructor({
+    key,
+    secret,
+    domain,
+    subdomain = '@',
+  }) {
     this.key = key;
     this.secret = secret;
     this.domain = domain;
@@ -15,7 +25,7 @@ class GoDaddyClient {
       headers: {
         Authorization: `sso-key ${key}:${secret}`,
       },
-      baseURL: apiUrl,
+      baseURL: `https://api.godaddy.com/v1/domains/${domain}/`,
     });
   }
 
@@ -23,17 +33,27 @@ class GoDaddyClient {
   getIpAddress() {
     return new Promise((resolve, reject) => {
       this.#axios.get(`records/A/${this.subdomain}`)
-        .then((response) => resolve(response.data))
-        .catch((err) => reject(err));
+        .then(response => resolve(response.data[0].data))
+        .catch(err => reject(err));
     });
   }
 
   /**
    * @param {string} ipAddress
-   * @returns {void}
+   * @returns {Promise<void>}
    */
   update(ipAddress) {
-
+    return new Promise((resolve, reject) => {
+      this.#axios
+        .put(
+          `records/A/${this.subdomain}`,
+          [
+            { data: ipAddress },
+          ],
+        )
+        .then(() => resolve)
+        .catch(err => reject(err));
+    });
   }
 }
 

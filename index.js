@@ -5,64 +5,70 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import program from 'commander';
 
-import Config from './src/Config.js';
 import GoDaddyClient from './src/GoDaddyClient.js';
 import questions from './src/questions.js';
+import { getConfig, setConfig } from './src/config.js';
+
+const update = () => {
+  const config = getConfig();
+
+  if (config === null) {
+    console.log('Config missing please run: dnsdaddy init');
+    process.exit();
+  }
+
+  const godaddy = new GoDaddyClient(config);
+  const log = err => console.log(err);
+
+  axios.get('https://api.ipify.org')
+    .then(response => {
+      const publicIp = response.data;
+      console.log(`Your IP address: ${publicIp}`);
+
+      godaddy.getIpAddress()
+        .then(ip => {
+          console.log(`GoDaddy IP address: ${ip}`);
+
+          if (ip !== publicIp) {
+            godaddy.update(publicIp)
+              .then(() => console.log(chalk.green('IP Address Updated')))
+              .catch(log);
+            return;
+          }
+
+          console.log(chalk.yellow('Update not needed'));
+        })
+        .catch(log);
+    })
+    .catch(log);
+};
 
 const init = () => {
   inquirer
     .prompt(questions)
     .then(answers => {
-      if (answers.updateNow) {
-        console.log(chalk.green('IP Address Updated'));
-        // todo call update()
-      }
-
       const {
+        domain,
         key,
         secret,
-        domain,
-        subdomain
+        subdomain,
       } = answers;
-      const config = new Config();
 
-      config.key = key;
-      config.secret = secret;
-      config.domain = domain;
-      config.subdomain = subdomain;
+      setConfig({
+        ...{
+          domain,
+          key,
+          secret,
+          subdomain,
+        },
+      });
 
-      config.save();
+      if (answers.updateNow) {
+        update();
+      }
     })
     .catch(error => console.log(error));
 };
-
-//const update = () => {
-  //const config = new Config();
-  //const godaddy = new GoDaddyClient(
-    //config.key,
-    //config.secret,
-    //config.domain,
-    //config.subdomain,
-  //);
-
-  //axios.get('https://api.ipify.org')
-    //.then((response) => {
-      //const publicIpAddress = response.data;
-      //console.log(`Your IP Address: ${publicIpAddress}`);
-
-      //godaddy.getIpAddress()
-        //.then((godaddyIpAddress) => {
-          //console.log(godaddyIpAddress);
-          //if (godaddyIpAddress !== publicIpAddress) {
-            //// update
-          //}
-        //})
-        //.catch((err) => {
-
-        //});
-    //})
-    //.catch((err) => console.log(err));
-//};
 
 program
   .name('dnsdaddy')
@@ -74,14 +80,9 @@ program
   .description('Setup DNS Daddy with your GoDaddy credentials')
   .action(init);
 
-//program
-  //.command('update')
-  //.description('Update DNS record with your IP address')
-  //.action(update);
-
 program
-  .command('clear')
-  .description('Clear config')
-  .action(() => {});
+  .command('update')
+  .description('Update DNS record with your IP address')
+  .action(update);
 
 program.parse(process.argv);
