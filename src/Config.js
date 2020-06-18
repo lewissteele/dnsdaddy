@@ -1,8 +1,9 @@
 import YAML from 'yaml';
 import fs from 'fs';
-import os from 'os';
+import xdg from '@folder/xdg';
 
-const path = `${os.homedir()}/.dnsdaddyrc.yml`;
+const dir = `${xdg().config}/dnsdaddy`;
+const path = `${dir}/config.yml`;
 
 class Config {
   constructor() {
@@ -29,6 +30,10 @@ class Config {
       secret: this.secret,
       subdomain: this.subdomain,
     };
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
 
     fs.writeFileSync(
       path,

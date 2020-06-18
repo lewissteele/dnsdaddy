@@ -23,6 +23,7 @@
     "eslint-plugin-import": "^2.21.2"
   },
   "dependencies": {
+    "@folder/xdg": "^2.1.1",
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",

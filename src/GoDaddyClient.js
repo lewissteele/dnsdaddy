@@ -19,7 +19,7 @@ class GoDaddyClient {
     });
   }
 
-  /** @returns {Promise} */
+  /** @returns {Promise<string>} */
   getIpAddress() {
     return new Promise((resolve, reject) => {
       this.#axios.get(`records/A/${this.subdomain}`)
