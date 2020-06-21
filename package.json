@@ -1,6 +1,6 @@
 {
   "name": "dnsdaddy",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "@babel/core": "^7.10.3",
     "@babel/node": "^7.10.3",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
     "@babel/preset-env": "^7.10.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.2.0",
@@ -39,6 +40,5 @@
   },
   "bin": {
     "dnsdaddy": "dist/index.js"
-  },
-  "type": "module"
+  }
 }
