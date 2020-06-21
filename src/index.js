@@ -5,9 +5,9 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import program from 'commander';
 
-import GoDaddyClient from './src/GoDaddyClient.js';
-import questions from './src/questions.js';
-import { getConfig, setConfig } from './src/config.js';
+import GoDaddyClient from './GoDaddyClient.js';
+import questions from './questions.js';
+import { getConfig, setConfig } from './config.js';
 
 const update = () => {
   const config = getConfig();

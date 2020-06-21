@@ -1,9 +1,11 @@
 {
   "name": "dnsdaddy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "babel src --out-dir dist",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +19,11 @@
   },
   "homepage": "https://github.com/lewissteele/dnsdaddy#readme",
   "devDependencies": {
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.10.3",
+    "@babel/node": "^7.10.3",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
@@ -27,12 +34,11 @@
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
-    "figlet": "^1.4.0",
     "inquirer": "^7.2.0",
     "yaml": "^1.10.0"
   },
   "bin": {
-    "dnsdaddy": "./index.js"
+    "dnsdaddy": "dist/index.js"
   },
   "type": "module"
 }
