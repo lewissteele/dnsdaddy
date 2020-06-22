@@ -24,6 +24,6 @@ dnsdaddy update
 
 Setup as a 20 minute cron:
 ```
-(crontab -l;echo "*/20 * * * * /usr/bin/dnsdaddy update)|crontab -
+(crontab -l;echo "*/20 * * * * /usr/bin/dnsdaddy update")|crontab -
 ```
 

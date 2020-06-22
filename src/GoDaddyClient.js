@@ -51,8 +51,8 @@ class GoDaddyClient {
             { data: ipAddress },
           ],
         )
-        .then(() => resolve)
-        .catch(err => reject(err));
+        .then(resolve)
+        .catch(reject);
     });
   }
 }
