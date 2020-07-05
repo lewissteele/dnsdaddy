@@ -5,10 +5,11 @@ class GoDaddyClient {
   #axios;
 
   /**
-   * @param {string} key
-   * @param {string} secret
-   * @param {string} domain
-   * @param {string} subdomain
+   * @param {object} config
+   * @param {string} config.key
+   * @param {string} config.secret
+   * @param {string} config.domain
+   * @param {string} config.subdomain
    */
   constructor({
     key,
