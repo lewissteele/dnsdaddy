@@ -19,23 +19,25 @@
   },
   "homepage": "https://github.com/lewissteele/dnsdaddy#readme",
   "devDependencies": {
-    "@babel/cli": "^7.10.3",
-    "@babel/core": "^7.10.3",
-    "@babel/node": "^7.10.3",
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.2.0",
+    "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.21.2"
+    "eslint-plugin-import": "^2.22.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.10.5",
     "@folder/xdg": "^2.1.1",
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
-    "inquirer": "^7.2.0",
+    "inquirer": "^7.3.3",
     "yaml": "^1.10.0"
   },
   "bin": {

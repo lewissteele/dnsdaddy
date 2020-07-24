@@ -9,38 +9,33 @@ import GoDaddyClient from './GoDaddyClient.js';
 import questions from './questions.js';
 import { getConfig, setConfig } from './config.js';
 
-const update = () => {
+const update = async () => {
   const config = getConfig();
 
   if (config === null) {
     console.log('Config missing please run: dnsdaddy init');
-    process.exit();
+    return;
   }
 
   const godaddy = new GoDaddyClient(config);
-  const log = err => console.log(err);
 
-  axios.get('https://api.ipify.org')
-    .then(response => {
-      const publicIp = response.data;
-      console.log(`Your IP address: ${publicIp}`);
+  try {
+    const publicIp = (await axios.get('https://api.ipify.org')).data;
+    console.log(`Your IP address: ${publicIp}`);
 
-      godaddy.getIpAddress()
-        .then(ip => {
-          console.log(`GoDaddy IP address: ${ip}`);
+    const godaddyIp = await godaddy.getIpAddress();
+    console.log(`GoDaddy IP address: ${godaddyIp}`);
 
-          if (ip !== publicIp) {
-            godaddy.update(publicIp)
-              .then(() => console.log(chalk.green('IP Address Updated')))
-              .catch(log);
-            return;
-          }
+    if (publicIp === godaddyIp) {
+      console.log(chalk.yellow('Update not needed'));
+      return;
+    }
 
-          console.log(chalk.yellow('Update not needed'));
-        })
-        .catch(log);
-    })
-    .catch(log);
+    await godaddy.update(publicIp);
+    console.log(chalk.green('IP address updated'));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const init = () => {
