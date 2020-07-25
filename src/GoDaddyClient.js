@@ -4,23 +4,23 @@ class GoDaddyClient {
   /** @type import('axios').AxiosInstance */
   #axios;
 
+  /** @type string */
+  #subdomain;
+
   /**
    * @param {object} config
+   * @param {string} config.domain
    * @param {string} config.key
    * @param {string} config.secret
-   * @param {string} config.domain
    * @param {string} config.subdomain
    */
   constructor({
+    domain,
     key,
     secret,
-    domain,
     subdomain = '@',
   }) {
-    this.key = key;
-    this.secret = secret;
-    this.domain = domain;
-    this.subdomain = subdomain;
+    this.#subdomain = subdomain;
 
     this.#axios = axios.create({
       headers: {
@@ -30,31 +30,23 @@ class GoDaddyClient {
     });
   }
 
-  /** @returns {Promise<string>} */
-  getIpAddress() {
-    return new Promise((resolve, reject) => {
-      this.#axios.get(`records/A/${this.subdomain}`)
-        .then(response => resolve(response.data[0].data))
-        .catch(err => reject(err));
-    });
+  /** @returns {Promise<void>} */
+  async getIpAddress() {
+    const response = await this.#axios.get(
+      `records/A/${this.#subdomain}`,
+    );
+    return response.data[0].data;
   }
 
   /**
    * @param {string} ipAddress
    * @returns {Promise<void>}
    */
-  update(ipAddress) {
-    return new Promise((resolve, reject) => {
-      this.#axios
-        .put(
-          `records/A/${this.subdomain}`,
-          [
-            { data: ipAddress },
-          ],
-        )
-        .then(resolve)
-        .catch(reject);
-    });
+  async update(ipAddress) {
+    await this.#axios.put(
+      `records/A/${this.#subdomain}`,
+      [{ data: ipAddress }],
+    );
   }
 }
 

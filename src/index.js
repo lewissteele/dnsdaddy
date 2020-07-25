@@ -38,31 +38,15 @@ const update = async () => {
   }
 };
 
-const init = () => {
-  inquirer
-    .prompt(questions)
-    .then(answers => {
-      const {
-        domain,
-        key,
-        secret,
-        subdomain,
-      } = answers;
+const init = async () => {
+  const answers = await inquirer.prompt(questions);
+  const { updateNow, ...config } = answers;
 
-      setConfig({
-        ...{
-          domain,
-          key,
-          secret,
-          subdomain,
-        },
-      });
+  setConfig(config);
 
-      if (answers.updateNow) {
-        update();
-      }
-    })
-    .catch(error => console.log(error));
+  if (answers.updateNow) {
+    update();
+  }
 };
 
 program

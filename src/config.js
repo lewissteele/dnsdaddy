@@ -7,6 +7,10 @@ const path = `${dir}/config.yml`;
 
 /**
  * @param {object} config
+ * @param {string} config.domain
+ * @param {string} config.key
+ * @param {string} config.secret
+ * @param {string} config.subdomain
  * @returns {void}
  */
 const setConfig = config => {
