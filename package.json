@@ -34,7 +34,7 @@
   "dependencies": {
     "@babel/runtime": "^7.10.5",
     "@folder/xdg": "^2.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "inquirer": "^7.3.3",
